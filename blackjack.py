@@ -88,33 +88,37 @@ def score(dealer_hand, player_hand):
 		print "Congratulations. Your score is higher than the dealer. You win\n"		
 
 def game():
-    deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]*100
+	deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]*100
 
-    choice = 0
-    clear()
-    print "WELCOME TO BLACKJACK!\n"
-    dealer_hand = deal(deck)
-    player_hand = deal(deck)
-    while choice != "q":
-        print "The dealer is showing a " + str(dealer_hand[0])
-        print "You have a " + str(player_hand) + " for a total of " + str(total(player_hand))
-        blackjack(dealer_hand, player_hand)
-        choice = raw_input("Do you want to [H]it, [S]tand, or [Q]uit: ").lower()
-        clear()
-        if choice == "h":
-            hit(player_hand, deck)
-            while total(dealer_hand) < 17:
-                hit(dealer_hand, deck)
-            score(dealer_hand, player_hand)
-            play_again()
-        elif choice == "s":
-            while total(dealer_hand) < 17:
-                hit(dealer_hand, deck)
-            score(dealer_hand, player_hand)
-            play_again()
-        elif choice == "q":
-            print "Bye!"
-            exit()
+	choice = "h"
+	clear()
+	print "WELCOME TO BLACKJACK!\n"
+	dealer_hand = deal(deck)
+	player_hand = deal(deck)
+	while choice == "h":
+		print "The dealer is showing a " + str(dealer_hand[0])
+		print "You have a " + str(player_hand) + " for a total of " + str(total(player_hand))
+		# blackjack(dealer_hand, player_hand)
+		choice = raw_input("Do you want to [H]it, [S]tand, or [Q]uit: ").lower()
+		clear()
+		if choice == "h":
+			hit(player_hand, deck)
+			while total(dealer_hand) < 17:
+				hit(dealer_hand, deck)
+		elif choice == "s":
+			while total(dealer_hand) < 17:
+				hit(dealer_hand, deck)
+			score(dealer_hand, player_hand)
+			play_again()
+		elif choice == "q":
+			print "Bye!"
+			exit()
+
+
 	
 if __name__ == "__main__":
    game()
+
+
+#    score(dealer_hand, player_hand)
+#             play_again()

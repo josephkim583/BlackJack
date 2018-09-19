@@ -19,6 +19,7 @@ class Blackjack:
             player.hand.append(card)
             self.summ(player, card)
     
+    #Sum up the hands of player
     def summ(self, player, card):
         if (card == 1):
             if (player.total >= 11):
@@ -40,15 +41,57 @@ class Blackjack:
         card = self.deck.pop()
         player.hand.append(card)
         self.summ(player, card)
-        
+
+    #Prints the results of the game
+    def print_results(self, computer, player):
+        self.clearscreen()
+        print ("The dealer has a " + str(computer.hand) + " for a total of " + str(computer.total))
+        print ("You have a " + str(player.hand) + " for a total of " + str(player.total))
+
+    #Determines the results of the game
+    def result(self, player, computer):
+        if player.total == 21:
+            self.print_results(computer, player)
+            print ("Congratulations! You got a Blackjack!\n")
+        elif computer.total == 21:
+            self.print_results(computer, player)
+            print ("Sorry, you lose. The dealer got a blackjack.\n")
+        elif player.total > 21:
+            self.print_results(computer, player)
+            print ("Sorry. You busted. You lose.\n")
+        elif computer.total > 21:
+            self.print_results(computer, player)
+            print ("Dealer busts. You win!\n")
+        elif player.total < computer.total:
+            self.print_results(computer, player)
+            print ("Sorry. Your score isn't higher than the dealer. You lose.\n")
+        elif player.total > computer.total:
+            self.print_results(computer, player)
+            print ("Congratulations. Your score is higher than the dealer. You win\n")
+    
+    # Playing again
+    def newgame(self):
+        again = input("Do you want to play again? (Y/N) : ").lower()
+        if again == "y":
+            self.run_game()
+        else:
+            print ("THANK YOU FOR PLAYING!")
+            exit()
+    
+    #Clearing screen
+    def clearscreen(self):
+        if os.name == 'nt':
+            os.system('CLS')
+        if os.name == 'posix':
+            os.system('clear')
+
+    # Game engine
     def run_game(self):
         # Initialize players
         self.player = Player()
         self.computer = Player()
         self.deal(self.player)
         self.deal(self.computer)
-        print (self.player.hand, self.computer.hand)
-
         print ("YOU ARE PLAYING BLACKJACK! GOOD LUCK!\n")
         playerMove = "h"
 
@@ -66,35 +109,12 @@ class Blackjack:
                 self.default(self.computer)
             elif (playerMove == 's'):
                 self.default(self.computer)
-                # self.result(player, computer)
-                # self.newgame()
+                self.result(self.player, self.computer)
+                self.newgame()
             else :
                 print ("Wrong move. Please type a valid move statement.")
                 playerMove = "h"
                 continue
-
-
-
-
-
-        
-
-
-# choice = raw_input("Do you want to [H]it, [S]tand, or [Q]uit: ").lower()
-# 		clear()
-# 		if choice == "h":
-# 			hit(player_hand, deck)
-# 			while total(dealer_hand) < 17:
-# 				hit(dealer_hand, deck)
-# 		elif choice == "s":
-# 			while total(dealer_hand) < 17:
-# 				hit(dealer_hand, deck)
-# 			score(dealer_hand, player_hand)
-# 			play_again()
-# 		elif choice == "q":
-# 			print "Bye!"
-# 			exit()
-
 
 blackjackgame = Blackjack()
 blackjackgame.run_game()
