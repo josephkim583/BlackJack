@@ -45,7 +45,7 @@ class Blackjack:
     #Prints the results of the game
     def print_results(self, computer, player):
         self.clearscreen()
-        print ("The dealer has a " + str(computer.hand) + " for a total of " + str(computer.total))
+        print ("The computer has a " + str(computer.hand) + " for a total of " + str(computer.total))
         print ("You have a " + str(player.hand) + " for a total of " + str(player.total))
 
     #Determines the results of the game
@@ -55,19 +55,19 @@ class Blackjack:
             print ("Congratulations! You got a Blackjack!\n")
         elif computer.total == 21:
             self.print_results(computer, player)
-            print ("Sorry, you lose. The dealer got a blackjack.\n")
+            print ("Sorry, you lose. The computer got a blackjack.\n")
         elif player.total > 21:
             self.print_results(computer, player)
             print ("Sorry. You busted. You lose.\n")
         elif computer.total > 21:
             self.print_results(computer, player)
-            print ("Dealer busts. You win!\n")
+            print ("Computer busts. You win!\n")
         elif player.total < computer.total:
             self.print_results(computer, player)
-            print ("Sorry. Your score isn't higher than the dealer. You lose.\n")
+            print ("Sorry. Your score isn't higher than the computer. You lose.\n")
         elif player.total > computer.total:
             self.print_results(computer, player)
-            print ("Congratulations. Your score is higher than the dealer. You win\n")
+            print ("Congratulations. Your score is higher than the computer. You win\n")
     
     # Playing again
     def newgame(self):
@@ -93,28 +93,37 @@ class Blackjack:
         self.deal(self.player)
         self.deal(self.computer)
         print ("YOU ARE PLAYING BLACKJACK! GOOD LUCK!\n")
+
         playerMove = "h"
-
+        setting = input("[S]ingleplayer, [M]ultiplayer, [Q]uit ?").lower()
         #Game loop
-        while (playerMove == 'h'):
-            print ("Dealer is showing: [", str(self.computer.hand[0]), "]")
-            print ("Player has: ", str(self.player.hand), "Total: ", str (self.player.total))
-            playerMove = input("[H]it, [S]tand, [Q]uit: ").lower()
+        if (setting == "s"):
+            while (playerMove == 'h'):
+                print ("Computer is showing: [", str(self.computer.hand[0]), "]")
+                print ("Player has: ", str(self.player.hand), "Total: ", str (self.player.total))
+                playerMove = input("[H]it, [S]tand, [Q]uit: ").lower()
 
-            if (playerMove == 'q'):
-                print ("GAME OVER!")
-                break
-            elif (playerMove == 'h'):
-                self.hit(self.player)
-                self.default(self.computer)
-            elif (playerMove == 's'):
-                self.default(self.computer)
-                self.result(self.player, self.computer)
-                self.newgame()
-            else :
-                print ("Wrong move. Please type a valid move statement.")
-                playerMove = "h"
-                continue
+                if (playerMove == 'q'):
+                    print ("GAME OVER!")
+                    break
+                elif (playerMove == 'h'):
+                    self.hit(self.player)
+                    self.default(self.computer)
+                elif (playerMove == 's'):
+                    self.default(self.computer)
+                    self.result(self.player, self.computer)
+                    self.newgame()
+                else :
+                    print ("Wrong move. Please type a valid move statement.")
+                    playerMove = "h"
+                    continue
+        elif (setting == "q"):
+            print ("GAME OVER!")
+        
+        else:
+            self.clearscreen()
+            print ("Incorrect input. Please type a valid input")          
+            self.run_game()
 
 blackjackgame = Blackjack()
 blackjackgame.run_game()
