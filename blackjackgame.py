@@ -3,12 +3,15 @@ import random
 
 class Player:
     def __init__(self):
+        self.name = ""
         self.hand = []
         self.total = 0
+        self.turn = False
 
 class Blackjack:
     def __init__(self):
         self.deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]*100
+        self.done = False
 
     #Deals cards to the users
     def deal(self, player):
@@ -31,7 +34,7 @@ class Blackjack:
         else:
             player.total += card
     
-    #Computer default mode
+    #Computer move default
     def default(self, player):
         while (player.total < 17):
             self.hit(player)
@@ -44,7 +47,7 @@ class Blackjack:
 
     #Prints the results of the game
     def print_results(self, computer, player):
-        self.clearscreen()
+        # self.clearscreen()
         print ("The computer has a " + str(computer.hand) + " for a total of " + str(computer.total))
         print ("You have a " + str(player.hand) + " for a total of " + str(player.total))
 
@@ -85,38 +88,85 @@ class Blackjack:
         if os.name == 'posix':
             os.system('clear')
 
-    # Game engine
-    def run_game(self):
+    # Single player mode
+    def singleplayer(self):
         # Initialize players
         self.player = Player()
         self.computer = Player()
         self.deal(self.player)
         self.deal(self.computer)
-        print ("YOU ARE PLAYING BLACKJACK! GOOD LUCK!\n")
+        self.clearscreen()
+        self.player.name = input("What is your name?: ")
+        playerMove = "h"
+        while (playerMove == 'h'):
+            print ("Computer is showing: [", str(self.computer.hand[0]), "]")
+            print (self.player.name, " has: ", str(self.player.hand), "Total: ", str (self.player.total))
+            playerMove = input("[H]it, [S]tand, [Q]uit: ").lower()
+
+            if (playerMove == 'q'):
+                print ("GAME OVER!")
+                break
+            elif (playerMove == 'h'):
+                self.hit(self.player)
+                self.default(self.computer)
+            elif (playerMove == 's'):
+                self.default(self.computer)
+                self.result(self.player, self.computer)
+                self.newgame()
+            else :
+                print ("Wrong move. Please type a valid move statement.")
+                playerMove = "h"
+                continue
+
+    # Multiplayer mode
+    def multiplayer(self):
+        self.clearscreen()
+        # Initialize players
+        self.playerone = Player()
+        self.playertwo = Player()
+        self.deal(self.playerone)
+        self.deal(self.playertwo)
+
+        self.playerone.name = input("What is player 1 name?: ")
+        self.playertwo.name = input("What is player 2 name?: ")
 
         playerMove = "h"
-        setting = input("[S]ingleplayer, [M]ultiplayer, [Q]uit ?").lower()
-        #Game loop
-        if (setting == "s"):
-            while (playerMove == 'h'):
-                print ("Computer is showing: [", str(self.computer.hand[0]), "]")
-                print ("Player has: ", str(self.player.hand), "Total: ", str (self.player.total))
-                playerMove = input("[H]it, [S]tand, [Q]uit: ").lower()
+        while (playerMove == 'h'):
+            self.playerone.turn = True
+            print ("It is ", self.playerone.name, "'s turn")
+            print (self.playertwo.name, " is showing: [", str(self.playertwo.hand[0]), "]")
+            print ("You have: ", str(self.player.hand), "Total: ", str (self.player.total))
+            playerMove = input("[H]it, [S]tand, [Q]uit: ").lower()
 
-                if (playerMove == 'q'):
-                    print ("GAME OVER!")
-                    break
-                elif (playerMove == 'h'):
-                    self.hit(self.player)
-                    self.default(self.computer)
-                elif (playerMove == 's'):
-                    self.default(self.computer)
-                    self.result(self.player, self.computer)
-                    self.newgame()
-                else :
-                    print ("Wrong move. Please type a valid move statement.")
-                    playerMove = "h"
-                    continue
+            if (playerMove == 'q'):
+                print ("GAME OVER!")
+                break
+            elif (playerMove == 'h'):
+                self.hit(self.player)
+                self.default(self.computer)
+            elif (playerMove == 's'):
+                self.default(self.computer)
+                self.result(self.player, self.computer)
+                self.newgame()
+            else :
+                print ("Wrong move. Please type a valid move statement.")
+                playerMove = "h"
+                continue
+
+    # Game engine
+    def run_game(self):
+        print ("YOU ARE PLAYING BLACKJACK! GOOD LUCK!\n")        
+        setting = input("[S]ingleplayer, [M]ultiplayer, [Q]uit ?").lower()
+
+        if (setting == "s"):
+            self.singleplayer()
+        
+        elif (setting == "m"):
+            self.multiplayer()
+
+
+
+            
         elif (setting == "q"):
             print ("GAME OVER!")
         
