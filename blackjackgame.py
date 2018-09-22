@@ -4,7 +4,6 @@ import random
 class Player:
     def __init__(self):
         self.name = ""
-        # self.hand = []
         self.cards = []
         self.total = 0
         self.move = "h"
@@ -20,19 +19,13 @@ class Blackjack:
         for i in range(2):
             random.shuffle(self.deck)
             card = self.deck.pop()
-            # player.hand.append(card)
             player.cards.append(self.convertcard(card))
             self.summ(player, card)
     
     def convertcard(self, i):
-        if (i == 11):
-            return ('J')
-        elif (i == 12):
-            return ('Q')
-        elif (i == 13):
-            return ('K')
-        elif (i == 1):
-            return ('A')
+        cards = {11: 'J', 12: "Q", 13: "K", 1: "A"}
+        if (i in cards):
+            return (cards[i])
         else:
             return (str(i))
 
@@ -56,7 +49,6 @@ class Blackjack:
     #Hit Move
     def hit(self, player):
         card = self.deck.pop()
-        # player.hand.append(card)
         player.cards.append(self.convertcard(card))
         self.summ(player, card)
 
@@ -86,6 +78,9 @@ class Blackjack:
         elif player.total > computer.total:
             self.print_results(computer, player)
             print (player.name, " wins!!!")   
+        elif player.total == computer.total:
+            self.print_results(computer, player):
+            print ("It is a tie!!")
 
     # Playing again
     def newgame(self):
@@ -187,16 +182,12 @@ class Blackjack:
     def run_game(self):
         print ("YOU ARE PLAYING BLACKJACK! GOOD LUCK!\n")        
         setting = input("[S]ingleplayer, [M]ultiplayer, [Q]uit ?").lower()
-
         if (setting == "s"):
-            self.singleplayer()
-        
+            self.singleplayer()      
         elif (setting == "m"):
-            self.multiplayer()
-            
+            self.multiplayer()           
         elif (setting == "q"):
-            print ("GAME OVER!")
-        
+            print ("GAME OVER!")      
         else:
             self.clearscreen()
             print ("Incorrect input. Please type a valid input")          
