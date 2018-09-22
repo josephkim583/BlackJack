@@ -79,7 +79,7 @@ class Blackjack:
             self.print_results(computer, player)
             print (player.name, " wins!!!")   
         elif player.total == computer.total:
-            self.print_results(computer, player):
+            self.print_results(computer, player)
             print ("It is a tie!!")
 
     # Playing again
