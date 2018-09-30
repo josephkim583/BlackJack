@@ -6,7 +6,7 @@ class Player:
         self.name = ""
         self.cards = []
         self.total = 0
-        self.move = "h"
+        self.move = "nothing"
 
 class Blackjack:
     def __init__(self):
@@ -108,22 +108,22 @@ class Blackjack:
         self.clearscreen()
         self.player.name = input("What is your name?: ")
         self.computer.name = "Computer"
-        playerMove = "h"
-        while (playerMove == 'h'):
+        playerMove = "hit"
+        while (playerMove == 'hit' or playerMove == 'h'):
             print ("Computer is showing: [", str(self.computer.cards[0]), "]")
             print (self.player.name, " has: ", str(self.player.cards), "Total: ", str (self.player.total))
             playerMove = input("[H]it, [S]tand, [Q]uit: ").lower()
 
-            if (playerMove == 'q'):
+            if (playerMove == 'q' or playerMove == 'quit'):
                 print ("GAME OVER!")
                 break
-            elif (playerMove == 'h'):
+            elif (playerMove == 'hit' or playerMove == 'h'):
                 self.hit(self.player)
                 self.default(self.computer)
                 if (self.player.total > 21):
-                    print ("You busted. The computer wins!!!")
+                    print ("You busted with a total of ", self.player.total, ". The computer wins!!!")
                     self.newgame()
-            elif (playerMove == 's'):
+            elif (playerMove == 's' or playerMove == 'stand'):
                 self.default(self.computer)
                 self.result(self.player, self.computer)
                 self.newgame()
@@ -144,44 +144,47 @@ class Blackjack:
         self.playerone.name = input("What is player 1 name?: ")
         self.playertwo.name = input("What is player 2 name?: ")
 
-        while (self.playerone.move == 'h' or self.playertwo.move == 'h'):
-            if (self.playerone.move == 'h'):
-                self.clearscreen()
-                print ("It is ", self.playerone.name, "'s turn")
-                print (self.playertwo.name, " is showing: [", str(self.playertwo.cards[0]), "]")
-                print ("You have: ", str(self.playerone.cards), "Total: ", str (self.playerone.total))
-                self.playerone.move = input("[H]it, [S]tand, [Q]uit: ").lower()
-                if (self.playerone.move == "q"):
-                    print ("GAME OVER!")
-                    break
-                elif (self.playerone.move == 'h'):
-                    self.hit(self.playerone)
-                    if (self.playerone.total > 21):
-                        print (self.playerone.name, " busted with a total of ",self.playerone.total, ". ", self.playertwo.name, " wins!!!!")
-                        self.newgame()
-                else :
-                    print ("Wrong move. Please type a valid move statement.")
-                    continue
+        while (self.playerone.move != "s"):
+            print ("It is ", self.playerone.name, "'s turn")
+            print (self.playertwo.name, " is showing: [", str(self.playertwo.cards[0]), "]")
+            print ("You have: ", str(self.playerone.cards), "Total: ", str (self.playerone.total))
+            self.playerone.move = input("[H]it, [S]tand, [Q]uit: ").lower()
+            if (self.playerone.move == "q" or self.playerone.move == "quit"):
+                print ("GAME OVER!")
+                break
+            elif (self.playerone.move == 'h' or self.playerone.move == 'hit'):
+                self.hit(self.playerone)
+                if (self.playerone.total > 21):
+                    print (self.playerone.name, " busted with a total of ",self.playerone.total, ". ", self.playertwo.name, " wins!!!!")
+                    self.newgame()
+            elif (self.playerone.move == 's' or self.playerone.move == 'stand'):
+                self.playerone.move == 's'
+                break
+            else :
+                print ("Wrong move. Please type a valid move statement.")
+                continue
 
-            if (self.playertwo.move == 'h'): 
-                self.clearscreen()
-                print ("It is ", self.playertwo.name, "'s turn")
-                print (self.playerone.name, " is showing: [", str(self.playerone.cards[0]), "]")
-                print ("You have: ", str(self.playertwo.cards), "Total: ", str (self.playertwo.total))
-                self.playertwo.move = input("[H]it, [S]tand, [Q]uit: ").lower()
-                if (self.playertwo.move == "q"):
-                    print ("GAME OVER!")
-                    break
-                elif (self.playertwo.move == 'h'):
-                    self.hit(self.playertwo)
-                    if (self.playertwo.total > 21):
-                        print (self.playertwo.name, " busted with a total of ",self.playertwo.total, ". ", self.playerone.name, " wins!!!!")
-                        self.newgame()
-                elif (self.playertwo.move == 's'):
-                    self.playertwo.move = 's'
-                else :
-                    print ("Wrong move. Please type a valid move statement.")
-                    continue
+        self.clearscreen()
+    
+        while (self.playertwo.move != "s"):
+            print ("It is ", self.playertwo.name, "'s turn")
+            print (self.playerone.name, " is showing: [", str(self.playerone.cards[0]), "]")
+            print ("You have: ", str(self.playertwo.cards), "Total: ", str (self.playertwo.total))
+            self.playertwo.move = input("[H]it, [S]tand, [Q]uit: ").lower()
+            if (self.playertwo.move == "q" or self.playertwo.move == "quit"):
+                print ("GAME OVER!")
+                break
+            elif (self.playertwo.move == 'h' or self.playertwo.move == "hit"):
+                self.hit(self.playertwo)
+                if (self.playertwo.total > 21):
+                    print (self.playertwo.name, " busted with a total of ",self.playertwo.total, ". ", self.playerone.name, " wins!!!!")
+                    self.newgame()
+            elif (self.playertwo.move == 's' or self.playertwo.move == "stand"):
+                self.playertwo.move = 's'
+                break
+            else :
+                print ("Wrong move. Please type a valid move statement.")
+                continue
 
         self.clearscreen()
         self.result(self.playerone, self.playertwo)
@@ -191,11 +194,11 @@ class Blackjack:
     def run_game(self):
         print ("YOU ARE PLAYING BLACKJACK! GOOD LUCK!\n")        
         setting = input("[S]ingleplayer, [M]ultiplayer, [Q]uit ?").lower()
-        if (setting == "s"):
+        if (setting == "s" or setting == "singleplayer"):
             self.singleplayer()      
-        elif (setting == "m"):
+        elif (setting == "m" or setting == "multiplayer"):
             self.multiplayer()           
-        elif (setting == "q"):
+        elif (setting == "q" or setting == "quit"):
             print ("GAME OVER!")      
         else:
             self.clearscreen()
