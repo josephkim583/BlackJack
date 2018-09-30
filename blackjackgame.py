@@ -120,6 +120,9 @@ class Blackjack:
             elif (playerMove == 'h'):
                 self.hit(self.player)
                 self.default(self.computer)
+                if (self.player.total > 21):
+                    print ("You busted. The computer wins!!!")
+                    self.newgame()
             elif (playerMove == 's'):
                 self.default(self.computer)
                 self.result(self.player, self.computer)
@@ -153,6 +156,9 @@ class Blackjack:
                     break
                 elif (self.playerone.move == 'h'):
                     self.hit(self.playerone)
+                    if (self.playerone.total > 21):
+                        print (self.playerone.name, " busted with a total of ",self.playerone.total, ". ", self.playertwo.name, " wins!!!!")
+                        self.newgame()
                 else :
                     print ("Wrong move. Please type a valid move statement.")
                     continue
@@ -168,6 +174,9 @@ class Blackjack:
                     break
                 elif (self.playertwo.move == 'h'):
                     self.hit(self.playertwo)
+                    if (self.playertwo.total > 21):
+                        print (self.playertwo.name, " busted with a total of ",self.playertwo.total, ". ", self.playerone.name, " wins!!!!")
+                        self.newgame()
                 elif (self.playertwo.move == 's'):
                     self.playertwo.move = 's'
                 else :
